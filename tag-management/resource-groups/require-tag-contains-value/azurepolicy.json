@@ -1,0 +1,49 @@
+{
+  "mode": "All",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+        },
+        {
+          "count": {
+            "value": [
+              "databricks-rg-*"
+            ],
+            "name": "pattern",
+            "where": {
+              "field": "name",
+              "notLike": "[current('pattern')]"
+            }
+          },
+          "notEquals": 0
+        },
+        {
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "notContains": "[parameters('tagContainsValue')]"
+        }
+      ]
+    },
+    "then": {
+      "effect": "deny"
+    }
+  },
+  "parameters": {
+    "tagName": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Tag Name",
+        "description": "Name of the tag, such as 'environment'"
+      }
+    },
+    "tagContainsValue": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Tag Contains Value",
+        "description": "String the tag value should contain, such as '@microsoft.com'"
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+"mode": "All",
+  "parameters": {
+    "toLowerOrToUpper": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Enforce Lowercase or Uppercase",
+        "description": "If set to Lowercase then the Policy will convert all tags on existing and new resources to lowercase. Uppercase will convert them to uppercase."
+      },
+      "allowedValues": [
+        "Lowercase",
+        "Uppercase"
+      ]
+    }
+  },
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+        },
+        {
+          "count": {
+            "value": [
+              "databricks-rg-*"
+            ],
+            "name": "pattern",
+            "where": {
+              "field": "name",
+              "notLike": "[current('pattern')]"
+            }
+          },
+          "notEquals": 0
+        },
+        {
+          "value": "[length(field('tags'))]",
+          "notEquals": 0
+        }
+      ]
+    },
+    "then": {
+      "effect": "modify",
+      "details": {
+        "roleDefinitionIds": [
+          "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+        ],
+        "operations": [
+          {
+            "operation": "addOrReplace",
+            "field": "tags",
+            "value": "[json(if(equals(parameters('toLowerOrToUpper'), 'Lowercase'), toLower(string(field('tags'))),toUpper(string(field('tags')))))]"
+          }
+        ]
+      }
+    }
+  }
+}

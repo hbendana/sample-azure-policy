@@ -1,0 +1,21 @@
+{
+  "tagName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag Name",
+      "description": "Name of the tag, such as 'Environment'"
+    }
+  },
+  "tagContainsValue": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Tag Contains Value",
+      "description": "String the tag value should contain, such as '@microsoft.com'"
+    },
+    "allowedValues": [
+      "@microsoft.com",
+      "@github.com",
+      "@linkedin.com"
+    ]
+  }
+}

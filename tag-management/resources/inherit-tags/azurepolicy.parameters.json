@@ -1,0 +1,21 @@
+{
+  "tagName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Tag Name",
+      "description": "Name of the tag, such as 'Environment'"
+    }
+  },
+  "listOfOmittedResourceTypes": {
+    "type": "Array",
+    "metadata": {
+      "displayName": "Omitted Resource Types",
+      "description": "List of omitted resource types"
+    },
+    "allowedValues": [
+      "Microsoft.Compute/virtualMachineScaleSets/networkInterfaces",
+      "Microsoft.Compute/virtualMachineScaleSets/virtualMachines",
+      "Microsoft.Compute/virtualMachineScaleSets/networkInterfaces/networkInterfaces"
+    ]
+  }
+}
